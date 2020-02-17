@@ -1,4 +1,4 @@
-#include <sys.wait.h>	// waitpid
+#include <sys/wait.h>	// waitpid
 #include <sys/mount.h>  // mount
 #include <fcntl.h>      // open
 #include <unistd.h>     // execv, sethostname, chroot, fchdir
@@ -36,15 +36,15 @@ namespace docker {
         void start(){
             auto setup = [](void *args) -> int {
                 auto _this = reinterpret_cast<container *>(args);
-
+                _this->start_bash();
                 // 对容器进行相关配置
                 // ...
 
-                reurn proc_wait;
+                return proc_wait;
             };
 
             process_pid child_pid = clone(setup, child_stack+STACK_SIZE, // 移动到栈底
-                                SIGCHILD，      // 子进程退出时会发出信号给父进程
+                                SIGCHLD,      // 子进程退出时会发出信号给父进程
                                 this);
             waitpid(child_pid, nullptr, 0);     // 等待子进程退出
           
