@@ -15,6 +15,10 @@ namespace docker {
     proc_statu proc_exit = 0;
     proc_statu proc_wait = 1;
 
+    typedef struct container_config {
+        std::string host_name;
+        std::string root_dir;
+    } container_config;
 
 }
 
