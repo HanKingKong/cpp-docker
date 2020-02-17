@@ -38,8 +38,8 @@ git commit -a -m "change" && git push -u origin master／／需要输入密码
    49  cd cpp-docker
    50  ls
 3. 设置xxx ???   
-git config --global user.email "1328968413@qq.com"
-git config --global user.name "HanKingKong"
+	git config --global user.email "1328968413@qq.com"
+	git config --global user.name "HanKingKong"
 4. 提交更新   
    51  git commit -a -m "change" && git push -u origin master
 
