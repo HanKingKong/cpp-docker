@@ -48,3 +48,9 @@ git commit -a -m "change" && git push -u origin master／／需要输入密码
 4. 提交更新   
    51  git commit -a -m "change" && git push -u origin master
 
+
+3.3 
+	wget http://labfile.oss.aliyuncs.com/courses/608/docker-image.tar
+shiyanlou:cpp-docker/ (master*) $ 
+	tar -xf docker-image.tar --directory shiyanlou/
+
