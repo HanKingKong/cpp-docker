@@ -11,7 +11,9 @@
 
 namespace docker {
     typedef int proc_statu;
-
+    proc_statu proc_err  = -1;
+    proc_statu proc_exit = 0;
+    proc_statu proc_wait = 1;
 
 
 }
