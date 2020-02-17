@@ -21,6 +21,11 @@ namespace docker {
     } container_config;
 
     class container {
+    private:
+        // 可读性增强
+        typedef int process_pid;
+        // 子进程栈
+        char child_stack[STACK_SIZE];
 
     }// 类结束
 
