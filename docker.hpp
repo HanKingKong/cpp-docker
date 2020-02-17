@@ -59,7 +59,9 @@ namespace docker {
         }
 	
     private:
-		
+	void set_rootdir(){
+	}
+
     void start_bash() {
         // 将C++风格的string 转换为 C 风格的字符串 char* 
         std::string bash = "/bin/bash";
