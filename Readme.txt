@@ -29,9 +29,13 @@ git commit -a -m "change" && git push -u origin master／／需要输入密码
 	    url = git@github.com:HanKingKong/cpp-docker.git
 
 第3方法 ssh克隆
-        cd Code
+1. 先创建密钥 
+        ssh-keygen -t rsa -C "1328968413@qq.com"
+2. 克隆
+ cd Code
    48  git clone git@github.com:HanKingKong/cpp-docker.git
    49  cd cpp-docker
    50  ls
+3. 提交更新   
    51  git commit -a -m "change" && git push -u origin master
 
