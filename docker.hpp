@@ -26,8 +26,14 @@ namespace docker {
         typedef int process_pid;
         // 子进程栈
         char child_stack[STACK_SIZE];
+        // 容器配置
+        container_config config;
+    public:
+        container(container_config &config) {
+            this->config = config;
+        }
 
-    }// 类结束
+    };  // 类结束
 
 } // namespace结束
 
