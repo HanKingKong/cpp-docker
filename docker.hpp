@@ -36,7 +36,9 @@ namespace docker {
         void start(){
             auto setup = [](void *args) -> int {
                 auto _this = reinterpret_cast<container *>(args);
-                _this->start_bash();
+                _this->set_hostname();
+				_this->start_bash();
+		
                 // 对容器进行相关配置
                 // ...
 
@@ -44,12 +46,19 @@ namespace docker {
             };
 
             process_pid child_pid = clone(setup, child_stack+STACK_SIZE, // 移动到栈底
-                                SIGCHLD,      // 子进程退出时会发出信号给父进程
+                                CLONE_NEWUTS|SIGCHLD,      // 子进程退出时会发出信号给父进程
                                 this);
             waitpid(child_pid, nullptr, 0);     // 等待子进程退出
           
         }
     private:
+	// 设置容器主机名
+	void set_hostname() {
+            sethostname(this->config.host_name.c_str(), this->config.host_name.length());
+        }
+	
+    private:
+		
     void start_bash() {
         // 将C++风格的string 转换为 C 风格的字符串 char* 
         std::string bash = "/bin/bash";

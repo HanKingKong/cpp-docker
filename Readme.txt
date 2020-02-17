@@ -1,4 +1,5 @@
-第1方法  ssh
+新的工程
+第1方法  ssh     ！！！！ 还需要更正
 ssh-keygen -t rsa -C "1328968413@qq.com"
 git pull git@github.com:HanKingKong/cpp-docker.git  #现拉取以后的远程库
 touch main.cpp
@@ -36,6 +37,9 @@ git commit -a -m "change" && git push -u origin master／／需要输入密码
    48  git clone git@github.com:HanKingKong/cpp-docker.git
    49  cd cpp-docker
    50  ls
-3. 提交更新   
+3. 设置xxx ???   
+git config --global user.email "1328968413@qq.com"
+git config --global user.name "HanKingKong"
+4. 提交更新   
    51  git commit -a -m "change" && git push -u origin master
 

@@ -4,7 +4,7 @@
 int main(int argc, char** argv){
     std::cout << "...start container" << std::endl;
     docker::container_config config;
-
+	config.host_name = "shiyanlou";
     // 配置容器
     // ...
 
