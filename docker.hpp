@@ -20,5 +20,9 @@ namespace docker {
         std::string root_dir;
     } container_config;
 
-}
+    class container {
+
+    }// 类结束
+
+} // namespace结束
 
