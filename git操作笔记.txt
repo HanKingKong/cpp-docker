@@ -1,0 +1,92 @@
+    1  wget http://labfile.oss.aliyuncs.com/courses/608/cppdocker.tar
+    2  wget http://labfile.oss.aliyuncs.com/courses/608/docker-image.tar
+    3  mkdir Code/cpp-docker
+    4  cd Code/cpp-docker
+    5  vim docker.hpp
+    
+    // 修改 vim 配置
+    6  mkdir ~/.vim/bundle -p
+    7  cd ~/.vim/bundle
+    8  git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    9  vim ~/.vimrc
+   10  vim
+   11  vim ~/.vimrc
+   12  vim /etc/vim/vimrc
+   13  vim ~/.vimrc
+   14  ccd
+   15  cd
+   16  ls
+   17  mkdir test
+   18  cd test
+   19  git clone git@github.com:HanKingKong/cpp_docker_test.git
+   20  ls
+   21  git clone git@github.com:HanKingKong/cpp_docker_test.git
+   24  ssh-keygen -t rsa -C "1328968413@qq.com"
+   27  gedit ~/.ssh/id_rsa.pub&
+   28  git clone git@github.com:HanKingKong/cpp_docker_test.git
+   29  ls
+   30  ls cpp_docker_test 
+   31  cat cpp_docker_test/README.md
+   32  touch 1.c
+   33  ls
+   34  git push origin master
+   35  ls
+   36  mv 1.c cpp_docker_test
+   37  cd cpp_docker_test
+   38  ls
+   39  git push origin master
+   40  ls
+   49  git config --global user.email "1328968413@qq.com"
+   50  git config --global user.name "HanKingKOng"
+   51  git add 1.c
+   52  git commit -m "firset commit"
+   53  git push origin master
+   54  ls
+   55  ls -a
+   56  ls
+   57  git init
+   58  ls
+   59  git push docker.hpp
+   60  git add docker.hpp
+   61  git commit -m "first commit"
+   62  git push -u origin master
+   63  git remote add orgin 
+   64  git remote add orgin git@github.com:HanKingKong/cpp-docker.git
+   65  git push -u orgin master
+   66  git add docker.hpp
+   67  git commit -m "first commit"
+   68  git add docker.hpp
+   69  git commit -m "first commit"
+   70  git push -u orgin master
+   71  git push  orgin master
+   72  ls
+   73  ls -a
+   74  git pull 
+   75  git pull git@github.com:HanKingKong/cpp-docker.git
+   76  ls
+   77  git push -u orgin master
+   78  ls
+   79  touch main.cpp
+   80  ls
+   81  git add main.cpp
+   82  git commit main.cpp
+   83  git commit -m "first commit"
+   84  git push orgin master
+   85* git commit -a
+   86* git commit -a -m "changed" && git push
+   87* git commit -a -m "changed" && git push -u orgin master
+   88  vim ~/.vimrc
+   89  gvim docker.hpp main.cpp
+   90  ls
+   91  cat ~/.vimrc -n2
+   92  cat ~/.vimrc --n 2
+   93  head  -8 ~/.vimrc 
+   94  head  -5 ~/.vimrc >> vimrc
+   95  git add vimrc
+   96* git commit -a -m "changed" && git push -u orgin master
+   97  ls
+   98  gedit Readme.txt &
+   99  hist
+  100  history
+  101* git commit -a -m "changed" && git push -u orgin master
+  102  history
