@@ -49,6 +49,19 @@ namespace docker {
             waitpid(child_pid, nullptr, 0);     // 等待子进程退出
           
         }
+    private:
+    void start_bash() {
+        // 将C++风格的string 转换为 C 风格的字符串 char* 
+        std::string bash = "/bin/bash";
+        char *c_bash = new char[bash.length()+1];
+        strcpy(c_bash, bash.c_str());
+
+        char* const child_args[] = { c_bash, NULL };
+        execv(child_args[0], child_args);   // 在子进程中执行 /bin/bash
+        delete []c_bash;
+
+    }
+        
 
     };  // 类结束
 
