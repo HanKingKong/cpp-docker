@@ -36,17 +36,18 @@ namespace docker {
         void start(){
             auto setup = [](void *args) -> int {
                 auto _this = reinterpret_cast<container *>(args);
+
+                // 对容器进行相关配置
                 _this->set_hostname();
 				_this->start_bash();
 		
-                // 对容器进行相关配置
-                // ...
 
                 return proc_wait;
             };
 
             process_pid child_pid = clone(setup, child_stack+STACK_SIZE, // 移动到栈底
-                                CLONE_NEWUTS|SIGCHLD,      // 子进程退出时会发出信号给父进程
+                                CLONE_NEWUTS|	// 添加 UTS namespace
+								SIGCHLD,      	// 子进程退出时会发出信号给父进程
                                 this);
             waitpid(child_pid, nullptr, 0);     // 等待子进程退出
           
