@@ -33,6 +33,23 @@ namespace docker {
             this->config = config;
         }
 
+        void start(){
+            auto setup = [](void *args) -> int {
+                auto _this = reinterpret_cast<container *>(args);
+
+                // 对容器进行相关配置
+                // ...
+
+                reurn proc_wait;
+            };
+
+            process_pid child_pid = clone(setup, child_stack+STACK_SIZE, // 移动到栈底
+                                SIGCHILD，      // 子进程退出时会发出信号给父进程
+                                this);
+            waitpid(child_pid, nullptr, 0);     // 等待子进程退出
+          
+        }
+
     };  // 类结束
 
 } // namespace结束
