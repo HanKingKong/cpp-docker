@@ -54,3 +54,5 @@ git commit -a -m "change" && git push -u origin master／／需要输入密码
 shiyanlou:cpp-docker/ (master*) $ 
 	tar -xf docker-image.tar --directory shiyanlou/
 
+  docker run -it ubuntu:14.04 /bin/bash
+
