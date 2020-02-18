@@ -39,14 +39,17 @@ namespace docker {
 
                 // 对容器进行相关配置
                 _this->set_hostname();
+                _this->set_rootdir();
+                _this->set_procsys();
 				_this->start_bash();
-		
 
                 return proc_wait;
             };
 
             process_pid child_pid = clone(setup, child_stack+STACK_SIZE, // 移动到栈底
                                 CLONE_NEWUTS|	// 添加 UTS namespace
+                                CLONE_NEWNS|    // Mount    namespace
+                                CLONE_NEWPID|   // PID      namespace
 								SIGCHLD,      	// 子进程退出时会发出信号给父进程
                                 this);
             waitpid(child_pid, nullptr, 0);     // 等待子进程退出
@@ -60,7 +63,19 @@ namespace docker {
 	
     private:
 	void set_rootdir(){
-	}
+        // chdir 系统调用，切换到某个目录下
+        chdir(this->config.root_dir.c_str());
+        
+        // chroot 系统调用，设置根目录，因为刚才已经切换过当前目录
+        // 故直接使用当前目录作为根目录即可
+        chroot(".");
+	} 
+    // 设置独立的进程空间
+    void set_procsys(){
+        // 挂载 proc 文件系统
+        mount("none", "/proc", "proc", 0, nullptr);
+        mount("none", "/sys", "sysfs", 0, nullptr);
+    }
 
     void start_bash() {
         // 将C++风格的string 转换为 C 风格的字符串 char* 

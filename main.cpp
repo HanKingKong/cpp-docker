@@ -7,6 +7,7 @@ int main(int argc, char** argv){
     // 配置容器
     docker::container_config config;
 	config.host_name = "shiyanlou";
+    config.root_dir  = "./shiyanlou";
 
     docker::container container(config);// 根据 config 构造容器
     container.start();                  // 启动容器
