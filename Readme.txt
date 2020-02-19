@@ -50,9 +50,9 @@ git commit -a -m "change" && git push -u origin master／／需要输入密码
 
 
 3.3 
-	wget http://labfile.oss.aliyuncs.com/courses/608/docker-image.tar
-shiyanlou:cpp-docker/ (master*) $ 
-	tar -xf docker-image.tar --directory shiyanlou/
+wget http://labfile.oss.aliyuncs.com/courses/608/docker-image.tar
+mkdir shiyanlou 
+tar -xf docker-image.tar --directory shiyanlou/
 
-  docker run -it ubuntu:14.04 /bin/bash
+docker run -it ubuntu:14.04 /bin/bash
 
