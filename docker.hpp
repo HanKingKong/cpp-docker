@@ -7,6 +7,11 @@
 #include <cstring>  // C   lib
 #include <string>   // C++ lib
 
+#include <net/if.h>     // if_nametoindex
+#include <arpa/inet.h>  // inet_pton
+#include "network.h"
+
+
 #define STACK_SIZE (512*512)
 
 namespace docker {
@@ -15,9 +20,13 @@ namespace docker {
     proc_statu proc_exit = 0;
     proc_statu proc_wait = 1;
 
+    // docker容器启动配置
     typedef struct container_config {
-        std::string host_name;
-        std::string root_dir;
+        std::string host_name;      // 主机名
+        std::string root_dir;       // 容器根目录
+        std::string ip;             // 容器 IP
+        std::string bridge_name;    // 网桥名
+        std::string bridge_ip;      // 网桥 IP
     } container_config;
 
     class container {
@@ -28,12 +37,25 @@ namespace docker {
         char child_stack[STACK_SIZE];
         // 容器配置
         container_config config;
+        // 保存容器网络设备，用于删除
+        char *veth1;
+        char *veth2;
     public:
         container(container_config &config) {
             this->config = config;
         }
 
         void start(){
+            char veth1buf[IFNAMSIZ] = "shiyanlou0X";
+            char veth2buf[IFNAMSIZ] = "shiyanlou0X";
+            // 创建一对网络设备，一个用于加载到宿主机，另一个用于转移到子进程容器中
+            veth1 = lxc_mkifname(veth1buf); 
+            // lxc_mkifname 这个 API 在网络设备名字后面至少需要添加一个"X“来支持随机创建虚拟网络设备
+            veth2 = lxc_mkifname(veth2buf);
+            // 用于保证网络设备的正确创建，详见 nerwork.c 中对 lxc_mkifname 的实现
+            lxc_veth_create(veth1, veth2);
+
+            // 容器创建前的一些配置工作
             auto setup = [](void *args) -> int {
                 auto _this = reinterpret_cast<container *>(args);
 
