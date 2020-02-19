@@ -72,6 +72,7 @@ namespace docker {
                 _this->set_hostname();
                 _this->set_rootdir();
                 _this->set_procsys();
+                _this->set_network();   // 容器内部配合网络配置
 				_this->start_bash();
 
                 // 配置容器内网络
@@ -140,7 +141,7 @@ void set_network() {
     struct in_addr bcast;
     struct in_addr gateway;
 
-    // IP 地址转换的函数，将 IP ??????????????????
+    // IP 地址转换的函数，将 IP 
     inet_pton(AF_INET, this->config.ip.c_str(), &ipv4);
     inet_pton(AF_INET, "255.255.255.0", &bcast);
     inet_pton(AF_INET, this->config.bridge_ip.c_str(), &gateway);
