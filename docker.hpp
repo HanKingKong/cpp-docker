@@ -13,7 +13,6 @@
 
 
 #define STACK_SIZE (512*512)
-#define IFNAMSIZ    12
 
 namespace docker {
     typedef int proc_statu;
