@@ -13,6 +13,7 @@
 
 
 #define STACK_SIZE (512*512)
+#define IFNAMSIZ    12
 
 namespace docker {
     typedef int proc_statu;
@@ -55,6 +56,14 @@ namespace docker {
             // 用于保证网络设备的正确创建，详见 nerwork.c 中对 lxc_mkifname 的实现
             lxc_veth_create(veth1, veth2);
 
+            // 设置 veth1 的 MAC 地址
+            setup_private_host_hw_addr(veth1);
+            // 将 veth1 添加到网桥中
+            lxc_bridge_attach(config.bridge_name.c_str(), veth1);
+            // 激活 veth1
+            lxc_netdev_up(veth1);
+
+
             // 容器创建前的一些配置工作
             auto setup = [](void *args) -> int {
                 auto _this = reinterpret_cast<container *>(args);
@@ -65,18 +74,30 @@ namespace docker {
                 _this->set_procsys();
 				_this->start_bash();
 
+                // 配置容器内网络
+
+
                 return proc_wait;
             };
-
+            // 使用 clone 创建容器
             process_pid child_pid = clone(setup, child_stack+STACK_SIZE, // 移动到栈底
                                 CLONE_NEWUTS|	// 添加 UTS namespace
                                 CLONE_NEWNS|    // Mount    namespace
                                 CLONE_NEWPID|   // PID      namespace
+                                CLONE_NEWNET|   // Net      namespace
 								SIGCHLD,      	// 子进程退出时会发出信号给父进程
                                 this);
+            // 将 veth2 转移到容器内部，并命名为 eth0
+            lxc_netdev_move_by_name(veth2, child_pid, "eth0");
+
             waitpid(child_pid, nullptr, 0);     // 等待子进程退出
           
         }
+    ~container() {
+        // 退出时，记得删除创建的虚拟网络设备 
+        lxc_netdev_delete_by_name(veth1);
+        lxc_netdev_delete_by_name(veth2);
+    }
     private:
 	// 设置容器主机名
 	void set_hostname() {
@@ -111,6 +132,37 @@ namespace docker {
 
     }
         
+private:
+void set_network() {
+
+    int ifindex = if_nametoindex("eth0");
+    struct in_addr ipv4;
+    struct in_addr bcast;
+    struct in_addr gateway;
+
+    // IP 地址转换的函数，将 IP ??????????????????
+    inet_pton(AF_INET, this->config.ip.c_str(), &ipv4);
+    inet_pton(AF_INET, "255.255.255.0", &bcast);
+    inet_pton(AF_INET, this->config.bridge_ip.c_str(), &gateway);
+
+    // ?? eth0 IP ??
+    lxc_ipv4_addr_add(ifindex, &ipv4, &bcast, 16);
+
+    // ?? lo
+    lxc_netdev_up("lo");
+
+    // ?? eth0
+    lxc_netdev_up("eth0");
+
+    // ????
+    lxc_ipv4_gateway_add(ifindex, &gateway);
+
+    // ?? eth0 ? MAC ??
+    char mac[18];
+    new_hwaddr(mac);
+    setup_hw_addr(mac, "eth0");
+}
+
 
     };  // 类结束
 
